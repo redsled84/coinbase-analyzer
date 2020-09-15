@@ -4,28 +4,28 @@ app = Flask(__name__)
 
 @app.route('/')
 def portfolio(name=None):
-	info = get_account_info()
+    info = get_account_info()
 
-	btc_nums = get_crypto_data('BTC')
-	bch_nums = get_crypto_data('BCH')
-	eth_nums = get_crypto_data('ETH')
-	dash_nums = get_crypto_data('DASH')
-	zrx_nums = get_crypto_data('ZRX')
-	xrp_nums = get_crypto_data('XRP')
-	dnt_nums = get_crypto_data('DNT')
-	xlm_nums = get_crypto_data('XLM')
-	link_nums = get_crypto_data('LINK')
+    btc_nums = get_crypto_data('BTC')
+    bch_nums = get_crypto_data('BCH')
+    eth_nums = get_crypto_data('ETH')
+    dash_nums = get_crypto_data('DASH')
+    zrx_nums = get_crypto_data('ZRX')
+    xrp_nums = get_crypto_data('XRP')
+    dnt_nums = get_crypto_data('DNT')
+    xlm_nums = get_crypto_data('XLM')
+    link_nums = get_crypto_data('LINK')
 
-	return render_template('index.html', info=info,
-		btc_nums=btc_nums,
-		bch_nums=bch_nums,
-		eth_nums=eth_nums,
-		dash_nums=dash_nums,
-		zrx_nums=zrx_nums,
-		xrp_nums=xrp_nums,
-		dnt_nums=dnt_nums,
-		xlm_nums=xlm_nums,
-		link_nums=link_nums)
+    return render_template('index.html', info=info,
+        btc_nums=btc_nums,
+        bch_nums=bch_nums,
+        eth_nums=eth_nums,
+        dash_nums=dash_nums,
+        zrx_nums=zrx_nums,
+        xrp_nums=xrp_nums,
+        dnt_nums=dnt_nums,
+        xlm_nums=xlm_nums,
+        link_nums=link_nums)
 
 @app.after_request
 def add_header(response):

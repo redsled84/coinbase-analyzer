@@ -1,339 +1,339 @@
 <!doctype html>
 <head>
-	<title>Coinbase Viewer</title>
-	<!-- Compiled and minified CSS -->
+    <title>Coinbase Viewer</title>
+    <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
-	<nav class="blue">
-		<div class="nav-wrapper">
-			<div><a href="" class="brand-logo center">Coinbase Analyzer<i class="right large material-icons">trending_up</i></a></div>
-			<ul id="nav-mobile" class="right hide-on-med-and-down">
-				<li><a href="">Portfolio</a></li>
-				<li><a href="">Orders</a></li>
-				<li><a href="">Emergency</a></li>
-			</ul>
-		</div>
-	</nav>
+    <nav class="blue">
+        <div class="nav-wrapper">
+            <div><a href="" class="brand-logo center">Coinbase Analyzer<i class="right large material-icons">trending_up</i></a></div>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="">Portfolio</a></li>
+                <li><a href="">Orders</a></li>
+                <li><a href="">Emergency</a></li>
+            </ul>
+        </div>
+    </nav>
     
-	<div style="padding-bottom: 1rem"></div>
+    <div style="padding-bottom: 1rem"></div>
 
-	<style type="text/css">
-		.badge {
-			font-size: 14px !important;
-		}
+    <style type="text/css">
+        .badge {
+            font-size: 14px !important;
+        }
 
-		.collection-item {
-			font-size: 14px !important;
-		}
-	</style>
+        .collection-item {
+            font-size: 14px !important;
+        }
+    </style>
 
-	<div class="row">
-		<div class="col s12 m6 l4">
-			<!-- Portfolio valuation (USD) -->
-			<div class="collection with-header">
-				<li class="collection-header grey lighten-3"><h5>Portfolio Valuation ($)</h5></li>
-					<a class="collection-item blue-text text-darken-1 grey lighten-2">
-						<span class="new badge green" data-badge-caption="">${{ info['total'] }}</span>
-					Portfolio net worth</a>
-			</div>
-			<!-- Valuation breakdown (ticker symbol, USD value) -->
-			<div class="collection with-header">
-				<li class="collection-header grey lighten-3"><h5>Valuation Breakdown ($)</h5></li>
-				{% for wallet in info['data'] %}
-					<a class="collection-item blue-text text-darken-1 grey lighten-2">
-						<span class="new badge" data-badge-caption="">${{ wallet['value'] }}</span><span class="grey-text text-darken-2 badge" data-badge-caption="">${{ wallet['bid'] }} x {{ wallet['balance'] }} = </span>{{ wallet['currency'] }}
-					</a>
-				{% endfor %}
-			</div>
-		</div>
-		<div class="col s12 m6 l3">
-			<!-- Amount of crypto in each wallet -->
-		    <ul class="collection with-header">
-				<li class="collection-header grey lighten-3"><h5>Wallets (Units)</h5></li>
+    <div class="row">
+        <div class="col s12 m6 l4">
+            <!-- Portfolio valuation (USD) -->
+            <div class="collection with-header">
+                <li class="collection-header grey lighten-3"><h5>Portfolio Valuation ($)</h5></li>
+                    <a class="collection-item blue-text text-darken-1 grey lighten-2">
+                        <span class="new badge green" data-badge-caption="">${{ info['total'] }}</span>
+                    Portfolio net worth</a>
+            </div>
+            <!-- Valuation breakdown (ticker symbol, USD value) -->
+            <div class="collection with-header">
+                <li class="collection-header grey lighten-3"><h5>Valuation Breakdown ($)</h5></li>
+                {% for wallet in info['data'] %}
+                    <a class="collection-item blue-text text-darken-1 grey lighten-2">
+                        <span class="new badge" data-badge-caption="">${{ wallet['value'] }}</span><span class="grey-text text-darken-2 badge" data-badge-caption="">${{ wallet['bid'] }} x {{ wallet['balance'] }} = </span>{{ wallet['currency'] }}
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col s12 m6 l3">
+            <!-- Amount of crypto in each wallet -->
+            <ul class="collection with-header">
+                <li class="collection-header grey lighten-3"><h5>Wallets (Units)</h5></li>
 
-				{% for wallet in info['data'] %}
-					<a href="#!" class="collection-item grey lighten-2 grey-text text-darken-2" style="padding-top: 1.16rem !important; padding-bottom: 1.16rem !important; font-size: 16px !important;">
-						<div>{{ wallet['balance'] }}<div class="secondary-content blue-text text-darken-1">{{ wallet['currency'] }}</div></div>
-					</a>
-				{% endfor %}
-			</ul>
-		</div>
-		<div class="col s12 m12 l5">
-			<!-- Pie chart of portfolio make-up -->
-		    <div class="collection with-header grey lighten-2">
-				<li class="collection-header grey lighten-3"><h5>Portfolio Chart (%)</h5></li>
+                {% for wallet in info['data'] %}
+                    <a href="#!" class="collection-item grey lighten-2 grey-text text-darken-2" style="padding-top: 1.16rem !important; padding-bottom: 1.16rem !important; font-size: 16px !important;">
+                        <div>{{ wallet['balance'] }}<div class="secondary-content blue-text text-darken-1">{{ wallet['currency'] }}</div></div>
+                    </a>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col s12 m12 l5">
+            <!-- Pie chart of portfolio make-up -->
+            <div class="collection with-header grey lighten-2">
+                <li class="collection-header grey lighten-3"><h5>Portfolio Chart (%)</h5></li>
 
-				<canvas id="portfolio_pie_chart" style="margin-bottom: 7.34rem !important; margin-top: 2rem !important;"></canvas>
-			</div>
-		</div>
-	</div>
+                <canvas id="portfolio_pie_chart" style="margin-bottom: 7.34rem !important; margin-top: 2rem !important;"></canvas>
+            </div>
+        </div>
+    </div>
 
-	<!-- Line chart of the portfolio over time -->
-	<div class="line-chart-container center" style="height:60% !important; width:80% !important; margin-left: auto !important; margin-right: auto !important">
-		<div class="row">
-			<div class="col s12 m12 l12">
-			    <div class="collection with-header grey lighten-2">
-					<li class="collection-header grey lighten-3"><h5>Portfolio Graph ($)</h5></li>
-					<canvas id="portfolio_line_chart"></canvas>
-				</div>
-			</div>
-		</div>
-	</div>
+    <!-- Line chart of the portfolio over time -->
+    <div class="line-chart-container center" style="height:60% !important; width:80% !important; margin-left: auto !important; margin-right: auto !important">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="collection with-header grey lighten-2">
+                    <li class="collection-header grey lighten-3"><h5>Portfolio Graph ($)</h5></li>
+                    <canvas id="portfolio_line_chart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
 
-	
+    
 
-	<!-- Compiled and minified JavaScript -->
+    <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <script type="text/javascript">
-    	var hex_colors = [
-    		
-			"#8c8fae", // 0  light violet
-			"#584563", // 1  dark violet
-			"#3e2137", // 2  dark purple
-			"#9a6348", // 3  beige
-			"#d79b7d", // 4  salmon
-			"#f5edba", // 5  light mint green
-			"#c0c741", // 6  lime green
-			"#647d34", // 7  dark green
-			"#e4943a", // 8  gold
-			"#9d303b", // 9  red
-			"#d26471", // 10 pink
-			"#70377f", // 11 purple
-			"#7ec4c1", // 12 light sea blue
-			"#34859d", // 13 sky blue
-			"#17434b", // 14 navy blue
-			"#1f0e1c"  // 15 burgandy
+        var hex_colors = [
+            
+            "#8c8fae", // 0  light violet
+            "#584563", // 1  dark violet
+            "#3e2137", // 2  dark purple
+            "#9a6348", // 3  beige
+            "#d79b7d", // 4  salmon
+            "#f5edba", // 5  light mint green
+            "#c0c741", // 6  lime green
+            "#647d34", // 7  dark green
+            "#e4943a", // 8  gold
+            "#9d303b", // 9  red
+            "#d26471", // 10 pink
+            "#70377f", // 11 purple
+            "#7ec4c1", // 12 light sea blue
+            "#34859d", // 13 sky blue
+            "#17434b", // 14 navy blue
+            "#1f0e1c"  // 15 burgandy
 
-    	]
+        ]
 
-		function hexToRgb(hex, alpha){
-		    var c;
-		    if(/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)){
-		        c= hex.substring(1).split('');
-		        if(c.length== 3){
-		            c= [c[0], c[0], c[1], c[1], c[2], c[2]];
-		        }
-		        c= '0x'+c.join('');
-		        return 'rgba('+[(c>>16)&255, (c>>8)&255, c&255].join(',')+',' + alpha + ')';
-		    }
-		    throw new Error('Bad Hex');
-		}
+        function hexToRgb(hex, alpha){
+            var c;
+            if(/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)){
+                c= hex.substring(1).split('');
+                if(c.length== 3){
+                    c= [c[0], c[0], c[1], c[1], c[2], c[2]];
+                }
+                c= '0x'+c.join('');
+                return 'rgba('+[(c>>16)&255, (c>>8)&255, c&255].join(',')+',' + alpha + ')';
+            }
+            throw new Error('Bad Hex');
+        }
 
-		function timeConverter(UNIX_timestamp){
-			var a = new Date(UNIX_timestamp * 1000);
-			var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-			var year = a.getFullYear();
-			var month = months[a.getMonth()];
-			var date = a.getDate();
-			var hour = a.getHours();
-			var min = a.getMinutes();
-			var sec = a.getSeconds();
-			var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
-			return time;
-		}
+        function timeConverter(UNIX_timestamp){
+            var a = new Date(UNIX_timestamp * 1000);
+            var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+            var year = a.getFullYear();
+            var month = months[a.getMonth()];
+            var date = a.getDate();
+            var hour = a.getHours();
+            var min = a.getMinutes();
+            var sec = a.getSeconds();
+            var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
+            return time;
+        }
 
-    	var ctx = document.getElementById('portfolio_pie_chart').getContext('2d');
-    	var info = JSON.parse(('{{ info }}').replace(new RegExp('&#39;', 'g'), '"'));
-    	var chart_data = [];
-    	var chart_labels = [];
-    	var chart_background_colors = [];
-    	var chart_border_colors = [];
+        var ctx = document.getElementById('portfolio_pie_chart').getContext('2d');
+        var info = JSON.parse(('{{ info }}').replace(new RegExp('&#39;', 'g'), '"'));
+        var chart_data = [];
+        var chart_labels = [];
+        var chart_background_colors = [];
+        var chart_border_colors = [];
 
-    	for (var i = 0; i < info.data.length; i++) {
-    		chart_data.push( Math.round( 10000 * (info.data[i].value / info.total)) / 100 );
-    		chart_labels.push(info.data[i].currency);
-    		chart_background_colors.push(hexToRgb(hex_colors[i], 0.75));
-    		chart_border_colors.push(hexToRgb(hex_colors[i], 1));
-    	}
+        for (var i = 0; i < info.data.length; i++) {
+            chart_data.push( Math.round( 10000 * (info.data[i].value / info.total)) / 100 );
+            chart_labels.push(info.data[i].currency);
+            chart_background_colors.push(hexToRgb(hex_colors[i], 0.75));
+            chart_border_colors.push(hexToRgb(hex_colors[i], 1));
+        }
 
-		var chart = new Chart(ctx, {
-		    // The type of chart we want to create
-		    type: 'pie',
+        var chart = new Chart(ctx, {
+            // The type of chart we want to create
+            type: 'pie',
 
-		    // The data for our dataset
-		    data: {
-		        labels: chart_labels,
-		        datasets: [{
-		            label: 'Portfolio Ratios',
-		            data: chart_data,
-		            backgroundColor: chart_background_colors,
-		            borderColor: chart_border_colors,
-		            width: 2
-		        }]
-		    },
+            // The data for our dataset
+            data: {
+                labels: chart_labels,
+                datasets: [{
+                    label: 'Portfolio Ratios',
+                    data: chart_data,
+                    backgroundColor: chart_background_colors,
+                    borderColor: chart_border_colors,
+                    width: 2
+                }]
+            },
 
-		    // Configuration options go here
-		    options: {
-		    	tooltips: {
-				  callbacks: {
-				    label: function(tooltipItem, data) {
-				      //get the concerned dataset
-				      var dataset = data.datasets[tooltipItem.datasetIndex];
-				      //calculate the total of this data set
-				      var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
-				        return previousValue + currentValue;
-				      });
-				      //get the current items value
-				      var currentValue = dataset.data[tooltipItem.index];
+            // Configuration options go here
+            options: {
+                tooltips: {
+                  callbacks: {
+                    label: function(tooltipItem, data) {
+                      //get the concerned dataset
+                      var dataset = data.datasets[tooltipItem.datasetIndex];
+                      //calculate the total of this data set
+                      var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
+                        return previousValue + currentValue;
+                      });
+                      //get the current items value
+                      var currentValue = dataset.data[tooltipItem.index];
 
-				      return currentValue + "%";
-				    }
-				  }
-				} 
-			}
-		});
+                      return currentValue + "%";
+                    }
+                  }
+                } 
+            }
+        });
 
-		var ctx2 = document.getElementById('portfolio_line_chart').getContext('2d');
+        var ctx2 = document.getElementById('portfolio_line_chart').getContext('2d');
 
-    	var btc_nums  = JSON.parse(('{{ btc_nums }}').replace(new RegExp('&#39;', 'g'), '"'));
-    	var bch_nums  = JSON.parse(('{{ bch_nums }}').replace(new RegExp('&#39;', 'g'), '"'));
-    	var eth_nums  = JSON.parse(('{{ eth_nums }}').replace(new RegExp('&#39;', 'g'), '"'));
-    	var xrp_nums  = JSON.parse(('{{ xrp_nums }}').replace(new RegExp('&#39;', 'g'), '"'));
-    	var xlm_nums  = JSON.parse(('{{ xlm_nums }}').replace(new RegExp('&#39;', 'g'), '"'));
-    	var zrx_nums  = JSON.parse(('{{ zrx_nums }}').replace(new RegExp('&#39;', 'g'), '"'));
-    	var dnt_nums  = JSON.parse(('{{ dnt_nums }}').replace(new RegExp('&#39;', 'g'), '"'));
-    	var link_nums = JSON.parse(('{{ link_nums }}').replace(new RegExp('&#39;', 'g'), '"'));
-    	var dash_nums = JSON.parse(('{{ dash_nums }}').replace(new RegExp('&#39;', 'g'), '"'));
-    	
-    	var chart_data2 = {
-    		'BTC':        [],
-    		'ETH':        [],
-    		'DASH':       [],
-    		'DNT':        [],
-    		'ZRX':        [],
-    		'XLM':        [],
-    		'XRP':        [],
-    		'LINK':       [],
-    		'BCH':        [],
-    		'total_high': [],
-    		'total_low':  []
-    	};
-    	var chart_labels2 = [];
+        var btc_nums  = JSON.parse(('{{ btc_nums }}').replace(new RegExp('&#39;', 'g'), '"'));
+        var bch_nums  = JSON.parse(('{{ bch_nums }}').replace(new RegExp('&#39;', 'g'), '"'));
+        var eth_nums  = JSON.parse(('{{ eth_nums }}').replace(new RegExp('&#39;', 'g'), '"'));
+        var xrp_nums  = JSON.parse(('{{ xrp_nums }}').replace(new RegExp('&#39;', 'g'), '"'));
+        var xlm_nums  = JSON.parse(('{{ xlm_nums }}').replace(new RegExp('&#39;', 'g'), '"'));
+        var zrx_nums  = JSON.parse(('{{ zrx_nums }}').replace(new RegExp('&#39;', 'g'), '"'));
+        var dnt_nums  = JSON.parse(('{{ dnt_nums }}').replace(new RegExp('&#39;', 'g'), '"'));
+        var link_nums = JSON.parse(('{{ link_nums }}').replace(new RegExp('&#39;', 'g'), '"'));
+        var dash_nums = JSON.parse(('{{ dash_nums }}').replace(new RegExp('&#39;', 'g'), '"'));
+        
+        var chart_data2 = {
+            'BTC':        [],
+            'ETH':        [],
+            'DASH':       [],
+            'DNT':        [],
+            'ZRX':        [],
+            'XLM':        [],
+            'XRP':        [],
+            'LINK':       [],
+            'BCH':        [],
+            'total_high': [],
+            'total_low':  []
+        };
+        var chart_labels2 = [];
 
-    	var balances = {
-    		'BTC':  0.0,
-    		'ETH':  0.0,
-    		'DASH': 0.0,
-    		'DNT':  0.0,
-    		'ZRX':  0.0,
-    		'XLM':  0.0,
-    		'XRP':  0.0,
-    		'LINK': 0.0,
-    		'BCH':  0.0
-    	};
+        var balances = {
+            'BTC':  0.0,
+            'ETH':  0.0,
+            'DASH': 0.0,
+            'DNT':  0.0,
+            'ZRX':  0.0,
+            'XLM':  0.0,
+            'XRP':  0.0,
+            'LINK': 0.0,
+            'BCH':  0.0
+        };
 
-    	for (var i = 0; i < info.data.length; i++) {
-			balances[info.data[i].currency] = info.data[i].balance;
-		}
+        for (var i = 0; i < info.data.length; i++) {
+            balances[info.data[i].currency] = info.data[i].balance;
+        }
 
-    	for (var i = 0; i < bch_nums.length; i++) {
-    		chart_labels2.push(timeConverter(bch_nums[i].time));
-    		chart_data2['total_low'].push(0);
-    		chart_data2['total_high'].push(0);
-    	}
+        for (var i = 0; i < bch_nums.length; i++) {
+            chart_labels2.push(timeConverter(bch_nums[i].time));
+            chart_data2['total_low'].push(0);
+            chart_data2['total_high'].push(0);
+        }
 
-    	function populateChartData2(symbol, arr)
-    	{
-    		for (var i = 0; i < arr.length; i++) {
-	    		chart_data2[symbol].push(Math.floor(arr[i].high * balances[symbol]));
-				chart_data2['total_high'][i] += Math.floor(arr[i].high * balances[symbol]);
-				chart_data2['total_low'][i] += Math.floor(arr[i].low * balances[symbol]);
-	    	}
-    	}
+        function populateChartData2(symbol, arr)
+        {
+            for (var i = 0; i < arr.length; i++) {
+                chart_data2[symbol].push(Math.floor(arr[i].high * balances[symbol]));
+                chart_data2['total_high'][i] += Math.floor(arr[i].high * balances[symbol]);
+                chart_data2['total_low'][i] += Math.floor(arr[i].low * balances[symbol]);
+            }
+        }
 
-    	populateChartData2('BTC', btc_nums);
-    	populateChartData2('BCH', bch_nums);
-    	populateChartData2('ETH', eth_nums);
-    	populateChartData2('XRP', xrp_nums);
-    	populateChartData2('XLM', xlm_nums);
-    	populateChartData2('ZRX', zrx_nums);
-    	populateChartData2('DNT', dnt_nums);
-    	populateChartData2('LINK', link_nums);
-    	populateChartData2('DASH', dash_nums);
+        populateChartData2('BTC', btc_nums);
+        populateChartData2('BCH', bch_nums);
+        populateChartData2('ETH', eth_nums);
+        populateChartData2('XRP', xrp_nums);
+        populateChartData2('XLM', xlm_nums);
+        populateChartData2('ZRX', zrx_nums);
+        populateChartData2('DNT', dnt_nums);
+        populateChartData2('LINK', link_nums);
+        populateChartData2('DASH', dash_nums);
 
-		var chart2 = new Chart(ctx2, {
-		    // The type of chart we want to create
-		    type: 'line',
+        var chart2 = new Chart(ctx2, {
+            // The type of chart we want to create
+            type: 'line',
 
-		    // The data for our dataset
-		    data: {
-	        	labels: chart_labels2,
-			    datasets: [
-			      { 
-			        data: chart_data2['BTC'],
-			        label: "BTC",
-			        borderColor: hex_colors[8],
-			        fill: false
-			      },
-			      { 
-			        data: chart_data2['BCH'],
-			        label: "BCH",
-			        borderColor: hex_colors[9],
-			        fill: false
-			      },
-			      { 
-			        data: chart_data2['ETH'],
-			        label: "ETH",
-			        borderColor: hex_colors[14],
-			        fill: false
-			      },
-			      { 
-			        data: chart_data2['DASH'],
-			        label: "DASH",
-			        borderColor: hex_colors[13],
-			        fill: false
-			      },
-			      { 
-			        data: chart_data2['LINK'],
-			        label: "LINK",
-			        borderColor: hex_colors[12],
-			        fill: false
-			      },
-			      { 
-			        data: chart_data2['ZRX'],
-			        label: "ZRX",
-			        borderColor: hex_colors[0],
-			        fill: false
-			      },
-			      { 
-			        data: chart_data2['XLM'],
-			        label: "XLM",
-			        borderColor: hex_colors[11],
-			        fill: false
-			      },
-			      { 
-			        data: chart_data2['XRP'],
-			        label: "XRP",
-			        borderColor: hex_colors[1],
-			        fill: false
-			      },
-			      { 
-			        data: chart_data2['DNT'],
-			        label: "DNT",
-			        borderColor: hex_colors[10],
-			        fill: false
-			      },
-			      { 
-			        data: chart_data2['total_high'],
-			        label: "Total High",
-			        borderColor: hex_colors[7],
-			        fill: false
-			      },
-			      { 
-			        data: chart_data2['total_low'],
-			        label: "Total Low",
-			        borderColor: hex_colors[9],
-			        fill: false
-			      }
-			    ]
-		    },
+            // The data for our dataset
+            data: {
+                labels: chart_labels2,
+                datasets: [
+                  { 
+                    data: chart_data2['BTC'],
+                    label: "BTC",
+                    borderColor: hex_colors[8],
+                    fill: false
+                  },
+                  { 
+                    data: chart_data2['BCH'],
+                    label: "BCH",
+                    borderColor: hex_colors[9],
+                    fill: false
+                  },
+                  { 
+                    data: chart_data2['ETH'],
+                    label: "ETH",
+                    borderColor: hex_colors[14],
+                    fill: false
+                  },
+                  { 
+                    data: chart_data2['DASH'],
+                    label: "DASH",
+                    borderColor: hex_colors[13],
+                    fill: false
+                  },
+                  { 
+                    data: chart_data2['LINK'],
+                    label: "LINK",
+                    borderColor: hex_colors[12],
+                    fill: false
+                  },
+                  { 
+                    data: chart_data2['ZRX'],
+                    label: "ZRX",
+                    borderColor: hex_colors[0],
+                    fill: false
+                  },
+                  { 
+                    data: chart_data2['XLM'],
+                    label: "XLM",
+                    borderColor: hex_colors[11],
+                    fill: false
+                  },
+                  { 
+                    data: chart_data2['XRP'],
+                    label: "XRP",
+                    borderColor: hex_colors[1],
+                    fill: false
+                  },
+                  { 
+                    data: chart_data2['DNT'],
+                    label: "DNT",
+                    borderColor: hex_colors[10],
+                    fill: false
+                  },
+                  { 
+                    data: chart_data2['total_high'],
+                    label: "Total High",
+                    borderColor: hex_colors[7],
+                    fill: false
+                  },
+                  { 
+                    data: chart_data2['total_low'],
+                    label: "Total Low",
+                    borderColor: hex_colors[9],
+                    fill: false
+                  }
+                ]
+            },
 
 
-		    // Configuration options go here
-		    options: {}
-		});
+            // Configuration options go here
+            options: {}
+        });
     </script>
 </body>
